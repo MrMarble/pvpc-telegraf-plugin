@@ -61,8 +61,6 @@ func (s *Pvpc) Description() string {
 	return "Gather Spanish electricity hourly prices."
 }
 
-//https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=2021/12/26T00:00&end_date=2021/12/26T23:59&time_trunc=hour&geo_id=5
-
 func (s *Pvpc) SampleConfig() string {
 	return `
 	## Defines the time aggregation of the requested data.
