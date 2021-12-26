@@ -2,6 +2,8 @@ module github.com/mrmarble/pvpc-telegraf-plugin
 
 go 1.17
 
+require github.com/influxdata/telegraf v1.21.1
+
 require (
 	collectd.org v0.5.0 // indirect
 	github.com/BurntSushi/toml v0.4.1 // indirect
@@ -20,7 +22,6 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/influxdata/telegraf v1.21.1 // indirect
 	github.com/influxdata/toml v0.0.0-20190415235208-270119a8ce65 // indirect
 	github.com/jhump/protoreflect v1.8.3-0.20210616212123-6cc1efa697ca // indirect
 	github.com/mattn/go-colorable v0.1.8 // indirect
@@ -42,6 +43,7 @@ require (
 	golang.org/x/net v0.0.0-20211005215030-d2e5035098b3 // indirect
 	golang.org/x/sys v0.0.0-20211013075003-97ac67df715c // indirect
 	golang.org/x/text v0.3.7 // indirect
+	gonum.org/v1/gonum v0.9.3 // indirect
 	google.golang.org/genproto v0.0.0-20210827211047-25e5f791fe06 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 )
