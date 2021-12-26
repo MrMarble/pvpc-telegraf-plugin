@@ -27,12 +27,14 @@ Gather Spanish electricity hourly prices from https://www.ree.es/es/apidatos.
 ## Metrics
 
 - pvpc
+    - tags:
+        - geo_id (uin32)
     - fields:
         - value (float64)
 
 ## Example Output
 
 ```
-pvpc value=291.07 1575008500000000000
-pvpc value=196.58 1575008500000000000
+pvpc,geo_id=8741 value=291.07 1575008500000000000
+pvpc,geo_id=8741 value=196.58 1575008500000000000
 ```
