@@ -148,7 +148,7 @@ func (p *Pvpc) Gather(acc telegraf.Accumulator) error {
 	}
 
 	for _, price := range data.Entities[0].Attributes.Values {
-		acc.AddFields("", map[string]interface{}{"value": price.Value}, nil, price.Date.Local())
+		acc.AddFields("pvpc", map[string]interface{}{"price": price.Value}, map[string]string{"geo_id": fmt.Sprint(p.GeoID)}, price.Date.Local())
 	}
 	return nil
 }
