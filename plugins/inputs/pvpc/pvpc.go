@@ -57,13 +57,13 @@ type ReeData struct {
 	Entities []Entity `json:"included"`
 }
 
-func (s *Pvpc) Description() string {
+func (p *Pvpc) Description() string {
 	return "Gather Spanish electricity hourly prices."
 }
 
 //https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=2021/12/26T00:00&end_date=2021/12/26T23:59&time_trunc=hour&geo_id=5
 
-func (s *Pvpc) SampleConfig() string {
+func (p *Pvpc) SampleConfig() string {
 	return `
 	## Defines the time aggregation of the requested data.
 	time_trunc = "hour"
@@ -88,12 +88,12 @@ func (p *Pvpc) Init() error {
 	return nil
 }
 
-func (p *Pvpc) createHttpClient() *http.Client {
+func (p *Pvpc) createHTTPClient() *http.Client {
 	client := http.Client{Timeout: time.Duration(p.HTTPTimeout)}
 	return &client
 }
 
-func (p *Pvpc) craftUrl() string {
+func (p *Pvpc) craftURL() string {
 	url := url.URL{
 		Scheme: "https",
 		Host:   "apidatos.ree.es",
@@ -119,7 +119,7 @@ func (p *Pvpc) craftUrl() string {
 }
 
 func (p *Pvpc) fetch() (*ReeData, error) {
-	resp, err := p.httpClient.Get(p.craftUrl())
+	resp, err := p.httpClient.Get(p.craftURL())
 
 	if err != nil {
 		return nil, err
@@ -139,7 +139,7 @@ func (p *Pvpc) fetch() (*ReeData, error) {
 
 func (p *Pvpc) Gather(acc telegraf.Accumulator) error {
 	if p.httpClient == nil {
-		p.httpClient = p.createHttpClient()
+		p.httpClient = p.createHTTPClient()
 	}
 
 	data, err := p.fetch()
