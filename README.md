@@ -1,5 +1,8 @@
 # PVPC Telegraf Plugin
 
+[![golangci-lint](https://github.com/MrMarble/pvpc-telegraf-plugin/actions/workflows/lint.yml/badge.svg)](https://github.com/MrMarble/pvpc-telegraf-plugin/actions/workflows/lint.yml)
+
+
 Gather Spanish electricity hourly prices from https://www.ree.es/es/apidatos.
 
 ## Configuration
