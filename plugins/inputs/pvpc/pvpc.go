@@ -12,6 +12,17 @@ import (
 	"github.com/influxdata/telegraf/plugins/inputs"
 )
 
+type Pvpc struct {
+	TimeTrunc   string          `toml:"time_trunc"`
+	GeoID       uint32          `toml:"geo_id"`
+	StartDate   MarshableTime   `toml:"start_date"`
+	EndDate     MarshableTime   `toml:"end_date"`
+	HTTPTimeout config.Duration `toml:"http_timeout"`
+	httpClient  *http.Client
+
+	Log telegraf.Logger `toml:"-"`
+}
+
 type MarshableTime struct {
 	time.Time
 }
@@ -25,15 +36,6 @@ func (m *MarshableTime) UnmarshalJSON(b []byte) (err error) {
 	}
 	m.Time = t
 	return nil
-}
-
-type Pvpc struct {
-	TimeTrunc   string          `toml:"time_trunc"`
-	GeoID       uint32          `toml:"geo_id"`
-	StartDate   MarshableTime   `toml:"start_date"`
-	EndDate     MarshableTime   `toml:"end_date"`
-	HTTPTimeout config.Duration `toml:"http_timeout"`
-	httpClient  *http.Client
 }
 
 type Entry struct {
@@ -103,7 +105,7 @@ func (p *Pvpc) craftURL() string {
 	if p.StartDate.Year() == 1 || p.EndDate.Year() == 1 {
 		now := time.Now()
 		p.StartDate = MarshableTime{Time: time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())}
-		p.EndDate = MarshableTime{Time: time.Date(now.Year(), now.Month(), now.Day(), 23, 00, 0, 0, now.Location())}
+		p.EndDate = MarshableTime{Time: time.Date(now.Year(), now.Month(), now.Day()+1, 23, 00, 0, 0, now.Location())}
 	}
 
 	query.Set("start_date", p.StartDate.Format("2006-01-02T15:04"))
@@ -136,6 +138,8 @@ func (p *Pvpc) fetch() (*ReeData, error) {
 }
 
 func (p *Pvpc) Gather(acc telegraf.Accumulator) error {
+	p.Log.Info("Gathering PVPC price")
+
 	if p.httpClient == nil {
 		p.httpClient = p.createHTTPClient()
 	}
@@ -143,6 +147,10 @@ func (p *Pvpc) Gather(acc telegraf.Accumulator) error {
 	data, err := p.fetch()
 	if err != nil {
 		return err
+	}
+
+	if len(data.Entities) == 0 || len(data.Entities[0].Attributes.Values) == 0 {
+		p.Log.Info("No values returned")
 	}
 
 	for _, price := range data.Entities[0].Attributes.Values {
