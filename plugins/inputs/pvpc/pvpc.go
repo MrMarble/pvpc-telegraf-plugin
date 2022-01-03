@@ -102,14 +102,17 @@ func (p *Pvpc) craftURL() string {
 	query := url.Query()
 	query.Set("time_trunc", p.TimeTrunc)
 
+	startDate := p.StartDate
+	endDate := p.EndDate
+
 	if p.StartDate.Year() == 1 || p.EndDate.Year() == 1 {
 		now := time.Now()
-		p.StartDate = MarshableTime{Time: time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())}
-		p.EndDate = MarshableTime{Time: time.Date(now.Year(), now.Month(), now.Day()+1, 23, 00, 0, 0, now.Location())}
+		startDate = MarshableTime{Time: time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())}
+		endDate = MarshableTime{Time: time.Date(now.Year(), now.Month(), now.Day()+1, 23, 00, 0, 0, now.Location())}
 	}
 
-	query.Set("start_date", p.StartDate.Format("2006-01-02T15:04"))
-	query.Set("end_date", p.EndDate.Format("2006-01-02T15:04"))
+	query.Set("start_date", startDate.Format("2006-01-02T15:04"))
+	query.Set("end_date", endDate.Format("2006-01-02T15:04"))
 
 	if p.GeoID != 0 {
 		query.Set("geo_id", fmt.Sprint(p.GeoID))
