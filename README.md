@@ -6,7 +6,7 @@ Gather Spanish electricity hourly prices from https://www.ree.es/es/apidatos.
 
 ## Build and Run
 
-To build this plugin, just run (go environment neede, at least 1.17):
+To build this plugin, just run (go environment needed, at least 1.17):
 
 ```
 make
