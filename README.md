@@ -4,7 +4,7 @@
 
 Gather Spanish electricity hourly prices from https://www.ree.es/es/apidatos.
 
-Build and Run
+## Build and Run
 
 To build this plugin, just run:
 
