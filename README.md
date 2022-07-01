@@ -2,8 +2,19 @@
 
 [![golangci-lint](https://github.com/MrMarble/pvpc-telegraf-plugin/actions/workflows/lint.yml/badge.svg)](https://github.com/MrMarble/pvpc-telegraf-plugin/actions/workflows/lint.yml)
 
-
 Gather Spanish electricity hourly prices from https://www.ree.es/es/apidatos.
+
+Build and Run
+
+To build this plugin, just run:
+
+```
+make
+```
+
+Which will build the binary ./bin/pvpc
+
+You can run it with `./bin/pvpc --config plugin.conf`
 
 ## Configuration
 
