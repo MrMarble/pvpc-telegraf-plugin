@@ -64,6 +64,9 @@ Once compiled and configured, you could add the plugin to Telegraf adding this c
   ## more about them here:
   ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "influx"
+  
+  # Set interval to 24h
+  interval = "24h"
 ```
 
 ## Metrics
