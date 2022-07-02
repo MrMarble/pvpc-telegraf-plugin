@@ -2,8 +2,19 @@
 
 [![golangci-lint](https://github.com/MrMarble/pvpc-telegraf-plugin/actions/workflows/lint.yml/badge.svg)](https://github.com/MrMarble/pvpc-telegraf-plugin/actions/workflows/lint.yml)
 
-
 Gather Spanish electricity hourly prices from https://www.ree.es/es/apidatos.
+
+## Build and Run
+
+To build this plugin, just run (go environment needed, at least 1.17):
+
+```
+make
+```
+
+Which will build the binary ./bin/pvpc
+
+You can run it with `./bin/pvpc --config plugin.conf`
 
 ## Configuration
 
@@ -25,6 +36,37 @@ Gather Spanish electricity hourly prices from https://www.ree.es/es/apidatos.
 	## Http request timeout.
 	http_timeout="10s"
 
+```
+
+Once compiled and configured, you could add the plugin to Telegraf adding this configuration:
+
+```toml
+[[inputs.execd]]
+  ## One program to run as daemon.
+  ## NOTE: process and each argument should each be their own string
+  command = ["/path/to/pvpc", "--config", "/path/to/plugin.conf"]
+
+  ## Define how the process is signaled on each collection interval.
+  ## Valid values are:
+  ##   "none"    : Do not signal anything. (Recommended for service inputs)
+  ##               The process must output metrics by itself.
+  ##   "STDIN"   : Send a newline on STDIN. (Recommended for gather inputs)
+  ##   "SIGHUP"  : Send a HUP signal. Not available on Windows. (not recommended)
+  ##   "SIGUSR1" : Send a USR1 signal. Not available on Windows.
+  ##   "SIGUSR2" : Send a USR2 signal. Not available on Windows.
+  signal = "none"
+
+  ## Delay before the process is restarted after an unexpected termination
+  restart_delay = "10s"
+
+  ## Data format to consume.
+  ## Each data format has its own unique set of configuration options, read
+  ## more about them here:
+  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  data_format = "influx"
+  
+  # Set interval to 24h
+  interval = "24h"
 ```
 
 ## Metrics
